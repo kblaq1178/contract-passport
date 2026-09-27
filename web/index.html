@@ -15,8 +15,9 @@
   </head>
   <body>
     <!--
-      Static first render: this shell is visible before (and even without) JavaScript.
-      src/main.ts replaces it with the live app on mount, then loads the wallet/API code.
+      Neutral first render, shared by both routes: this shell is visible before (and even
+      without) JavaScript. src/main.ts replaces it with the landing page at "/" or the
+      dashboard at "/dashboard", then loads the wallet/API code.
     -->
     <div id="app" class="app-shell">
       <header class="site-header">
@@ -32,13 +33,9 @@
             <p class="brand-sub">Know what a Stacks contract is before you interact with it.</p>
           </div>
         </div>
-        <div class="header-actions">
-          <span class="net-badge">STACKS TESTNET</span>
-          <button id="wallet-button" class="btn btn-ghost" type="button">Connect Stacks wallet</button>
-        </div>
       </header>
-      <section class="panel search-panel">
-        <p class="hint">Loading the registry UI...</p>
+      <section class="panel">
+        <p class="hint">Loading Contract Passport...</p>
       </section>
     </div>
     <script type="module" src="/src/main.ts"></script>

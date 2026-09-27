@@ -73,7 +73,7 @@ export async function fetchPassport(
   const registry = requireRegistry(registryId);
   const target = parseContractPrincipal(targetId);
   if (!target) {
-    throw new Error("Enter a contract principal like ST1PQHQK....my-contract.");
+    throw new Error("Enter a contract principal like ST3HKMJ7BYNTGV4DG9A33RVBTVJ1GTCGX9GQ5AKPB.contract-passport.");
   }
   const { Cl, fetchCallReadOnlyFunction } = await sdk();
   const result = await fetchCallReadOnlyFunction({

@@ -10,6 +10,7 @@ import {
 } from "./config";
 import { DEMO_PASSPORTS } from "./demo";
 import { esc, qs, truncateId } from "./dom";
+import { mountLanding } from "./landing";
 import {
   CAPABILITY_SPECS,
   STATUSES,
@@ -96,7 +97,7 @@ function shellMarkup(): string {
           class="input mono"
           spellcheck="false"
           autocomplete="off"
-          placeholder="ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.contract-passport"
+          placeholder="ST3HKMJ7BYNTGV4DG9A33RVBTVJ1GTCGX9GQ5AKPB.contract-passport"
           value="${esc(state.registry)}"
         />
         <button id="registry-save" class="btn btn-quiet" type="button">Save</button>
@@ -104,29 +105,6 @@ function shellMarkup(): string {
       <p id="registry-status" class="hint"></p>
       <p class="hint hint-dim">${esc(registryHint)} Deploy contracts/contract-passport.clar to testnet, then paste its address here.</p>
     </section>
-
-    <section class="panel search-panel">
-      <div class="search-row">
-        <input
-          id="search-input"
-          class="input search-input mono"
-          spellcheck="false"
-          autocomplete="off"
-          placeholder="Search contract principal: ST1PQH...GZGM.my-contract"
-        />
-        <button id="search-button" class="btn btn-primary" type="button">Look up passport</button>
-      </div>
-      <div class="filter-row">
-        <span class="meta-label">Filter by declared capability</span>
-        <div id="filters" class="chips">${capabilityChipList()}</div>
-      </div>
-      <p class="hint">
-        Chips filter the passport you look up. Everything in this registry is self-attested by the
-        registrant: capability chips are claims, not a security review.
-      </p>
-    </section>
-
-    <section id="results" class="results"></section>
 
     <section class="panel register-panel">
       <header class="panel-head">
@@ -139,7 +117,7 @@ function shellMarkup(): string {
       <form id="register-form" class="form" novalidate>
         <div class="field">
           <label class="meta-label" for="f-target">Contract principal</label>
-          <input id="f-target" class="input mono" spellcheck="false" autocomplete="off" placeholder="ST1PQH...GZGM.my-contract" />
+          <input id="f-target" class="input mono" spellcheck="false" autocomplete="off" placeholder="ST3HKMJ7BYNTGV4DG9A33RVBTVJ1GTCGX9GQ5AKPB.contract-passport" />
         </div>
         <div class="field-row">
           <div class="field">
@@ -173,6 +151,29 @@ function shellMarkup(): string {
       </form>
       <div id="flow" class="flow"></div>
     </section>
+
+    <section class="panel search-panel">
+      <div class="search-row">
+        <input
+          id="search-input"
+          class="input search-input mono"
+          spellcheck="false"
+          autocomplete="off"
+          placeholder="Search contract principal: ST3HKMJ7BYNTGV4DG9A33RVBTVJ1GTCGX9GQ5AKPB.contract-passport"
+        />
+        <button id="search-button" class="btn btn-primary" type="button">Look up passport</button>
+      </div>
+      <div class="filter-row">
+        <span class="meta-label">Filter by declared capability</span>
+        <div id="filters" class="chips">${capabilityChipList()}</div>
+      </div>
+      <p class="hint">
+        Chips filter the passport you look up. Everything in this registry is self-attested by the
+        registrant: capability chips are claims, not a security review.
+      </p>
+    </section>
+
+    <section id="results" class="results"></section>
 
     <footer class="site-footer">
       <p>
@@ -300,7 +301,7 @@ function renderResults(): void {
     <div class="panel state-panel">
       <strong>Look up a contract principal</strong>
       <p class="hint">
-        Paste an address such as ST1PQH...GZGM.my-contract to read its passport from the registry.
+        Paste an address such as ST3HKMJ7BYNTGV4DG9A33RVBTVJ1GTCGX9GQ5AKPB.contract-passport to read its passport from the registry.
         There is no indexer, so browsing happens one contract at a time.
       </p>
       <button id="demo-toggle" class="btn btn-quiet" type="button" aria-pressed="${state.demo}">
@@ -366,7 +367,7 @@ async function runSearch(targetId?: string): Promise<void> {
     return;
   }
   if (!parseContractPrincipal(target)) {
-    state.error = "Enter a contract principal like ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.my-contract.";
+    state.error = "Enter a contract principal like ST3HKMJ7BYNTGV4DG9A33RVBTVJ1GTCGX9GQ5AKPB.contract-passport.";
     renderResults();
     return;
   }
@@ -425,7 +426,7 @@ async function onSubmit(event: SubmitEvent): Promise<void> {
   if (!registry) return setFlowError("Set and save the registry contract address first.");
   if (!state.address) return setFlowError("Connect a Stacks wallet to sign this transaction.");
   if (!target) {
-    return setFlowError("The contract principal must look like ST1PQHQK....my-contract.");
+    return setFlowError("The contract principal must look like ST3HKMJ7BYNTGV4DG9A33RVBTVJ1GTCGX9GQ5AKPB.contract-passport.");
   }
   if (!name) return setFlowError("Give the passport a name.");
   if (!version) return setFlowError("Give the passport a version, for example 1.0.0.");
@@ -504,7 +505,7 @@ function bindEvents(): void {
   qs<HTMLButtonElement>("#registry-save").addEventListener("click", () => {
     const value = inputValue("#registry-input").trim();
     if (value && !parseContractPrincipal(value)) {
-      setFlowError("Registry address must be a contract principal, for example ST1PQH....contract-passport.");
+      setFlowError("Registry address must be a contract principal, for example ST3HKMJ7BYNTGV4DG9A33RVBTVJ1GTCGX9GQ5AKPB.contract-passport.");
       return;
     }
     setRegistryId(value);
@@ -574,7 +575,23 @@ async function init(): Promise<void> {
   }
 }
 
-// 1. Render immediately.
-mount();
-// 2. Then load the wallet session and reach the network.
-void init();
+const DASHBOARD_PATH = "/dashboard";
+
+/**
+ * `/dashboard` renders the app; every other path (including `/`) renders the landing
+ * page. Vite's dev server and preview fall back to this document for unknown paths,
+ * so both routes work without a router dependency.
+ */
+function isDashboardRoute(): boolean {
+  const path = window.location.pathname.replace(/\/+$/, "").toLowerCase();
+  return path === DASHBOARD_PATH;
+}
+
+if (isDashboardRoute()) {
+  // 1. Render the dashboard immediately.
+  mount();
+  // 2. Then load the wallet session and reach the network.
+  void init();
+} else {
+  mountLanding();
+}
