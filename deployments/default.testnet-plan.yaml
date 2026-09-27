@@ -1,0 +1,17 @@
+id: 0
+name: Testnet deployment
+network: testnet
+stacks-node: https://api.testnet.hiro.so
+bitcoin-node: http://blockstack:blockstacksystem@bitcoind.testnet.stacks.co:18332
+plan:
+  batches:
+  - id: 0
+    transactions:
+    - transaction-type: contract-publish
+      contract-name: contract-passport
+      expected-sender: ST3HKMJ7BYNTGV4DG9A33RVBTVJ1GTCGX9GQ5AKPB
+      cost: 72530
+      path: contracts/contract-passport.clar
+      anchor-block-only: true
+      clarity-version: 6
+    epoch: '4.0'
