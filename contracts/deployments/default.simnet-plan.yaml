@@ -66,6 +66,6 @@ plan:
     - transaction-type: emulated-contract-publish
       contract-name: contract-passport
       emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-      path: contracts/contract-passport.clar
+      path: contracts\contract-passport.clar
       clarity-version: 6
     epoch: '4.0'
