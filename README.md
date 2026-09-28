@@ -10,14 +10,54 @@ capabilities) and anyone can read it back before interacting with that contract.
 contract, and it never inspects contract code. Clarity cannot prove who deployed another contract,
 so the "owner" stored in a passport is the address that registered it, not proof of deployment.
 
+## Built with Scaffold Stacks
+
+This repository was originally a plain Clarinet project. It was adopted into
+[Scaffold Stacks](https://scaffoldstacks.mintlify.app/) with the official CLI, following the
+[adopt-an-existing-project guide](https://scaffoldstacks.mintlify.app/adopt-existing):
+
+```bash
+stacksdapp init -vv        # adopt this existing Clarinet project in place
+stacksdapp doctor          # prerequisites
+stacksdapp check           # Clarity type-check
+stacksdapp test            # contract + frontend tests
+stacksdapp generate        # refresh TypeScript bindings
+stacksdapp dev --network testnet
+```
+
+`stacksdapp init` preserved the existing contract, tests and `web/` app, and added:
+
+| Added by adoption | Purpose |
+| --- | --- |
+| `stacksdapp.toml` | Project marker; lets any CLI command run from a subdirectory. |
+| `frontend/` | Scaffold Stacks Next.js app (App Router, Tailwind, Jotai). |
+| `frontend/src/generated/` | Generated bindings: `contracts.ts`, `hooks.ts`, `DebugContracts.tsx`, `deployments.json`. Never edit by hand; run `stacksdapp generate`. |
+| `.githooks/pre-commit` | Blocks committing real mnemonics in `settings/Testnet.toml` / `Mainnet.toml`. |
+| `.cursor/skills/scaffold-stacks/` | Agent skill (Clarity language, Stacks.js, CLI reference, troubleshooting). |
+
+### Deployed contract
+
+| Field | Value |
+| --- | --- |
+| Network | Stacks testnet |
+| Contract id | `ST3HKMJ7BYNTGV4DG9A33RVBTVJ1GTCGX9GQ5AKPB.contract-passport` |
+| Deploy tx | `0x5a4f5bdb5194204bb17e0ec0d29dc7a3c2fbdb6f81363a9fe5a65c6fb83ac8a4` |
+| Explorer | https://explorer.hiro.so/txid/0x5a4f5bdb5194204bb17e0ec0d29dc7a3c2fbdb6f81363a9fe5a65c6fb83ac8a4?chain=testnet |
+
+`frontend/src/generated/deployments.json` records this deployment, so the generated bindings,
+`frontend/src/generated/DebugContracts.tsx` and the `stacksdapp` commands all target the deployed
+testnet contract.
 ## Repository layout
 
 | Path | Purpose |
 | --- | --- |
-| `contracts/contract-passport.clar` | The registry contract (Clarity). |
-| `tests/contract-passport.test.ts` | Clarinet simnet unit tests. |
-| `web/` | The web UI (Vite + TypeScript, no framework). |
-| `Clarinet.toml`, `settings/`, `deployments/` | Clarinet project configuration and plans. |
+| `contracts/contracts/contract-passport.clar` | The registry contract (Clarity). |
+| `contracts/tests/contract-passport.test.ts` | Clarinet simnet unit tests (Vitest). |
+| `contracts/Clarinet.toml`, `contracts/settings/`, `contracts/deployments/` | Clarinet project configuration and plans. |
+| `frontend/` | Scaffold Stacks Next.js app: wallet connection + generated contract bindings. |
+| `web/` | Original standalone web UI (Vite + TypeScript), kept alongside the adopted app. |
+| `stacksdapp.toml` | Scaffold Stacks project marker (used for root walk-up). |
+| `.cursor/skills/scaffold-stacks/` | Scaffold Stacks agent skill that ships with the project. |
 
 ## Contract
 

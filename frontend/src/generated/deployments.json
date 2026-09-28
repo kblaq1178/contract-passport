@@ -1,0 +1,11 @@
+{
+  "network": "testnet",
+  "deployed_at": "2026-09-27T14:27:44.000Z",
+  "contracts": {
+    "contract-passport": {
+      "contract_id": "ST3HKMJ7BYNTGV4DG9A33RVBTVJ1GTCGX9GQ5AKPB.contract-passport",
+      "tx_id": "0x5a4f5bdb5194204bb17e0ec0d29dc7a3c2fbdb6f81363a9fe5a65c6fb83ac8a4",
+      "block_height": 556996
+    }
+  }
+}

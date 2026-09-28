@@ -26,4 +26,4 @@ check_checker = { trusted_sender = false, trusted_caller = false, callee_filter 
 [contracts.contract-passport]
 path = "contracts/contract-passport.clar"
 clarity_version = 6
-epoch = "latest"
+epoch = "4.0"
